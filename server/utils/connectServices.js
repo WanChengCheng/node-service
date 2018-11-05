@@ -6,7 +6,7 @@
 
 import connectMongo from '../storage/mongo';
 import connectRedis from '../storage/redis';
-import logger from '../utils/logger';
+import logger from './logger';
 import connectMysql from '../storage/mysql';
 
 const log = logger.child({ context: '[Connect Service]' });

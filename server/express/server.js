@@ -17,15 +17,12 @@ import cors from 'cors';
 import corsSettings from './corsSettings';
 import { isProductionEnv } from '../utils/env';
 import logger from '../utils/logger';
-import connectServices from './connectServices';
+import connectServices from '../utils/connectServices';
 
-const server = express();
-const service = Router();
+export const server = express();
+export const service = Router();
 
 /* eslint max-len: 0 */
-
-// port, 8080 as default
-server.set('port', process.env.PORT || 8080);
 
 // the client’s IP address is understood as the left-most entry in the X-Forwarded-* header.
 //  otherwise the app is understood as directly facing the Internet
