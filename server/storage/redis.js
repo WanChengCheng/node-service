@@ -16,9 +16,11 @@ const connectRedis = ({
   db = 0,
 }) => {
   const config = {
-    // default to a host name 'redis' in development env.
+    // ! set default values for deveopment env
+    // ! check configs/docker-compose-dev.yml for the values
+    // default to a host name 'redis'
     host: host || (!isProductionEnv && 'redis') || '',
-    // default port of redis
+    // default port of redis as convention
     port: port || (!isProductionEnv && '6379') || '',
     db,
   };

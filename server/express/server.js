@@ -17,6 +17,7 @@ import cors from 'cors';
 import corsSettings from './corsSettings';
 import { isProductionEnv } from '../utils/env';
 import logger from '../utils/logger';
+import connectServices from './connectServices';
 
 const server = express();
 const service = Router();
@@ -110,7 +111,7 @@ if (isProductionEnv) {
 
 let startup = false;
 // connect services
-Promise.all(Object.values(connectServices)).then(() => {
+Promise.all(connectServices()).then(() => {
   if (!startup) {
     server.listen(server.get('port'), () => {
       logger.info(`Started on port ${server.get('port')} in ${server.get('env')} mode`);
