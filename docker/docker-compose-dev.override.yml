@@ -6,7 +6,7 @@ services:
     #        More detail:
     #        https://docs.docker.com/compose/startup-order/
     #        https://github.com/vishnubob/wait-for-it
-    command: "bash ./wait-for-it.sh mysql:3306 -t 0 -s -- ${CUSTOM_CMD}"
+    command: "bash ./wait-for-it.sh mysql:3306 -t 0 -s -- ${DOCKER_CMD}"
     ports: []
     environment:
       - NODE_ENV=development

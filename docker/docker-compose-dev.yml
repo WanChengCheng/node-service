@@ -4,47 +4,46 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-    image: "${PROJECT_NAME}-service:latest"
-    container_name: "${PROJECT_NAME}-service"
+    image: "${SERVICE_NAME}:latest"
+    container_name: "${SERVICE_NAME}"
     ports:
       - "${DEV_DOCKER_SERVICE_PORT-8000}:80"
       - "${DEV_DOCKER_DEBUG_PORT-8100}:${DEV_DOCKER_DEBUG_PORT-8100}"
     restart: ${DEV_DOCKER_AUTO_RESTART}
-    command: ${DEV_DOCKER_CUSTOM_CMD}
+    command: ${DOCKER_CMD}
     environment:
       - NODE_ENV=development
       - PORT=80
     volumes:
       - ./wait-for-it.sh:/service/wait-for-it.sh
-      - ../.env:/service/env.config
-      - ../package.json:/service/package.json
+      - ../.env:/service/.env
+      - ../server.js:/service/server.js
       - ../server:/service/server
-      - ../import:/service/import
     depends_on:
       - "redis"
       - "mongoimport"
       - "mysql"
   redis:
     image: "redis:latest"
-    container_name: "${PROJECT_NAME}-redis"
+    container_name: "${SERVICE_NAME}-redis"
     ports:
       - "${DEV_DOCKER_REDIS_PORT-6379}:6379"
   mongo:
     image: "mongo"
-    container_name: "${PROJECT_NAME}-mongo"
+    container_name: "${SERVICE_NAME}-mongo"
     ports:
       - "${DEV_DOCKER_MONGO_PORT-27017}:27017"
   mongoimport:
     build:
       context: ../
       dockerfile: docker/Dockerfile-mongoimport
-    image: "${PROJECT_NAME}-mongoimport:latest"
-    container_name: "${PROJECT_NAME}-mongoimport"
+    image: "${SERVICE_NAME}-mongoimport:latest"
+    container_name: "${SERVICE_NAME}-mongoimport"
     depends_on:
       - "mongo"
   mysql:
     image: "mysql:5.6"
-    container_name: "${PROJECT_NAME}-mysql"
+    container_name: "${SERVICE_NAME}-mysql"
     ports:
       - "${DEV_DOCKER_MYSQL_PORT-3306}:3306"
     environment:

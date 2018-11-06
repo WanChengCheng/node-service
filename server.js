@@ -4,19 +4,19 @@
  * Author: ChegCheng Wan (chengcheng.st@gmail.com)
  */
 
-const dotenv = require("dotenv");
-const path = require("path");
-const fs = require("fs");
+const dotenv = require('dotenv');
+const path = require('path');
+const fs = require('fs');
 
 // load env file, this ENV_FILE should be set in npm scripts
-const env = process.env.ENV_FILE || ".env";
+const env = process.env.ENV_FILE || '.env';
 
 const file = path.join(__dirname, env);
 
 if (fs.existsSync(file)) {
   dotenv.config({
-    path: file
+    path: file,
   });
 }
 
-module.exports = require("./build");
+module.exports = require('./build');

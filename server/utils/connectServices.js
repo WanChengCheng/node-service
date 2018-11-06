@@ -16,6 +16,7 @@ const connectServices = () => [
   // ─── CONNECT MONGODB ────────────────────────────────────────────────────────────
   //
   (() => new Promise((resolve, reject) => {
+    log.info('connecting mongo');
     const mongoConnection = connectMongo({
       nodes: JSON.parse(process.env.SERVICE_MONGO_NODES || null) || [],
       replset: process.env.SERVICE_MONGO_REPLSET,
@@ -28,7 +29,7 @@ const connectServices = () => [
       resolve();
     });
     mongoConnection.on('error', (err) => {
-      log.error(`connect mongodb error:${err.message}`);
+      log.error(err, 'connect mongodb error');
       reject(err);
     });
   }))(),
@@ -36,6 +37,7 @@ const connectServices = () => [
   // ─── CONNECT REDIS ──────────────────────────────────────────────────────────────
   //
   (() => new Promise((resolve, reject) => {
+    log.info('connecting redis');
     const redis = connectRedis({
       host: process.env.SERVICE_REDIS_HOST,
       port: process.env.SERVICE_REDIS_PORT,
@@ -46,7 +48,7 @@ const connectServices = () => [
       resolve();
     });
     redis.on('error', (err) => {
-      log.info(`connect redis error:${err.message}`);
+      log.error(err, 'connect redis error');
       reject(err);
     });
   }))(),
@@ -54,6 +56,7 @@ const connectServices = () => [
   // ─── CONNECT MYSQL ──────────────────────────────────────────────────────────────
   //
   (() => new Promise((resolve, reject) => {
+    log.info('connecting mysql');
     const sequelize = connectMysql({
       host: process.env.SERVICE_MYSQL_HOST,
       port: process.env.SERVICE_MYSQL_PORT,
@@ -63,8 +66,14 @@ const connectServices = () => [
     });
     sequelize
       .authenticate()
-      .then(resolve)
-      .catch(reject);
+      .then(() => {
+        log.info('mysql connected');
+        resolve();
+      })
+      .catch((err) => {
+        log.error(err, 'connect mysql error');
+        reject(err);
+      });
   }))(),
 ];
 

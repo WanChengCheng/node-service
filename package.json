@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "",
-    "build:server": "./node_modules/.bin/babel server --out-dir build --source-maps",
+    "dev": "DOCKER_CMD=\"dumb-init npm run start\" docker-compose -f docker/docker-compose-dev.yml up",
+    "dev:test": "DOCKER_CMD=\"dumb-init npm run test\" docker-compose -f docker/docker-compose-dev.yml up",
+    "test": "npm run build && npm run test:ut && npm run test:e2e",
     "build": "if [ -d build ]; then rm -r build; fi; npm run build:server",
-    "build:noremove": "npm run build:server",
     "start": "npm run build && node server.js",
-    "dev": "docker-compose -f docker/docker-compose-dev.yml up"
+    "test:e2e": "ava --verbose build/**/*.e2e.js",
+    "test:ut": "ava --verbose build/**/*.test.js",
+    "build:server": "./node_modules/.bin/babel server --out-dir build --source-maps",
+    "build:noremove": "npm run build:server",
+    "dev:empty": "node scripts/docker-clear-storage",
+    "dev:rebuild": "node scripts/docker-rebuild-application"
   },
   "license": "MIT",
   "dependencies": {
@@ -37,6 +42,7 @@
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
+    "ava": "^1.0.0-rc.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-config-airbnb": "^17.1.0",

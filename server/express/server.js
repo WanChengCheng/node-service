@@ -14,6 +14,7 @@ import errorhandler from 'errorhandler';
 import helmet from 'helmet';
 import uuid from 'uuid/v4';
 import cors from 'cors';
+import { start } from 'repl';
 import corsSettings from './corsSettings';
 import { isProductionEnv } from '../utils/env';
 import logger from '../utils/logger';
@@ -105,14 +106,15 @@ server.use(service);
 if (isProductionEnv) {
   server.use(errorhandler());
 }
+const port = process.env.SERVICE_PORT || 80;
 
 let startup = false;
 // connect services
 Promise.all(connectServices()).then(() => {
   if (!startup) {
-    server.listen(server.get('port'), () => {
-      logger.info(`Started on port ${server.get('port')} in ${server.get('env')} mode`);
+    server.listen(port, () => {
       startup = true;
+      logger.info(`Started on port ${port} in ${server.get('env')} mode`);
     });
   }
 });
