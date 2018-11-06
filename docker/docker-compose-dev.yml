@@ -17,8 +17,10 @@ services:
     volumes:
       - ./wait-for-it.sh:/service/wait-for-it.sh
       - ../.env:/service/.env
-      - ../server.js:/service/server.js
+      - ../build:/service/build
       - ../server:/service/server
+      - ../package.json:/service/package.json
+      - ../ava.config.js:/service/ava.config.js
     depends_on:
       - "redis"
       - "mongoimport"

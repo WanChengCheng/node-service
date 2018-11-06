@@ -5,15 +5,18 @@
   "scripts": {
     "dev": "DOCKER_CMD=\"dumb-init npm run start\" docker-compose -f docker/docker-compose-dev.yml up",
     "dev:test": "DOCKER_CMD=\"dumb-init npm run test\" docker-compose -f docker/docker-compose-dev.yml up",
+    "dev:watch": "DOCKER_CMD=\"dumb-init npm run test:watch\" docker-compose -f docker/docker-compose-dev.yml up",
+    "dev:empty": "node scripts/docker-clear-storage",
+    "dev:rebuild": "node scripts/docker-rebuild-application",
     "test": "npm run build && npm run test:ut && npm run test:e2e",
-    "build": "if [ -d build ]; then rm -r build; fi; npm run build:server",
-    "start": "npm run build && node server.js",
+    "test:watch": "ava --verbose --watch build/**/*.test.js build/**/*.e2e.js",
     "test:e2e": "ava --verbose build/**/*.e2e.js",
     "test:ut": "ava --verbose build/**/*.test.js",
+    "build": "if [ -d build ]; then rm -r build; fi; npm run build:server",
+    "build:watch": "nodemon --watch server -x \"npm run build:noremove\"",
     "build:server": "./node_modules/.bin/babel server --out-dir build --source-maps",
     "build:noremove": "npm run build:server",
-    "dev:empty": "node scripts/docker-clear-storage",
-    "dev:rebuild": "node scripts/docker-rebuild-application"
+    "start": "npm run build && node server.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -49,6 +52,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "nodemon": "^1.18.6",
     "pino-pretty": "^2.2.3"
   }
 }
