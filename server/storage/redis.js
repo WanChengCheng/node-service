@@ -23,6 +23,7 @@ const connectRedis = ({
     // default port of redis as convention
     port: port || (!isProductionEnv && '6379') || '',
     db,
+    retryStrategy: times => Math.min(10 * 60 * 1000, times * 10 * 1000),
   };
   if (password) {
     config.password = password;

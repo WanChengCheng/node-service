@@ -29,8 +29,12 @@ const connectMysql = ({
     port: port || (!isProductionEnv && '3306') || '',
     dialect,
     timezone,
-    logging: log.info,
+    logging: msg => log.info(msg),
     ...options,
+    // https://github.com/sequelize/sequelize/issues/8417
+    // ! Using Sequelize without any aliases improves security
+    // ! see http://docs.sequelizejs.com/manual/tutorial/querying.html#operators-security
+    operatorsAliases: Sequelize.Op,
   };
   return new Sequelize(
     dbname || (!isProductionEnv && 'default') || '',
