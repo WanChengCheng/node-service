@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "precommit": "npm run lint && npm run build",
-    "prepush": "npm run lint && npm run dev:test",
     "dev": "npm run build && DOCKER_CMD=\"dumb-init npm run start:nobuild\" docker-compose -f docker/docker-compose-dev.yml up",
     "dev:test": "npm run build && DOCKER_CMD=\"dumb-init npm run test\" docker-compose -f docker/docker-compose-dev.yml up --abort-on-container-exit",
     "dev:watch": "DOCKER_CMD=\"dumb-init npm run test:watch\" docker-compose -f docker/docker-compose-dev.yml up",
