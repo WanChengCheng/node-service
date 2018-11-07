@@ -10,15 +10,18 @@ services:
       - "${DEV_DOCKER_SERVICE_PORT-8000}:80"
       - "${DEV_DOCKER_DEBUG_PORT-8100}:${DEV_DOCKER_DEBUG_PORT-8100}"
     restart: ${DEV_DOCKER_AUTO_RESTART}
-    command: ${DOCKER_CMD}
+    # command: ${DOCKER_CMD}
+    command: "bash ./wait-for-it.sh mysql:3306 -t 0 -s -- ${DOCKER_CMD}"
     environment:
       - NODE_ENV=development
       - PORT=80
     volumes:
+      # Keep tracking of these files for development
       - ./wait-for-it.sh:/service/wait-for-it.sh
       - ../.env:/service/.env
       - ../build:/service/build
       - ../server:/service/server
+      - ../node_modules:/tmp/dependencies/node_modules
       - ../package.json:/service/package.json
       - ../ava.config.js:/service/ava.config.js
     depends_on:

@@ -6,13 +6,18 @@
 
 module.exports = {
   root: true,
-  parser: "babel-eslint",
+  parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: "2018"
+    ecmaVersion: '2018',
   },
-  extends: "airbnb",
+  extends: 'airbnb',
   rules: {
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: ['**/*.test.js', '**/*.spec.js', '**/*.e2e.js'] },
+    ],
+
     // enable additional rules
   },
-  globals: {}
+  globals: {},
 };

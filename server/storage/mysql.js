@@ -36,7 +36,6 @@ const connectMysql = ({
     // ! see http://docs.sequelizejs.com/manual/tutorial/querying.html#operators-security
     operatorsAliases: Sequelize.Op,
   };
-  log.info('connect mysql with config:', config);
   return new Sequelize(
     dbname || (!isProductionEnv && 'default') || '',
     username || (!isProductionEnv && 'root') || '',

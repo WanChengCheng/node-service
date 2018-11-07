@@ -7,7 +7,7 @@ import pino from 'pino';
 import { isProductionEnv } from './env';
 
 const logger = pino({
-  prettyPrint: !isProductionEnv ? { colorize: true } : false,
+  prettyPrint: !isProductionEnv ? { translateTime: true, colorize: true } : false,
 });
 
 export default logger;

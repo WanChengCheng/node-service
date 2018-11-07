@@ -4,16 +4,12 @@
  * Author: ChegCheng Wan (chengcheng.st@gmail.com)
  */
 import { Router } from 'express';
+import status from './status';
 
 const api = Router();
 
-api.get('/', (req, res) => {
-  res.json({
-    status: 0,
-    data: {
-      message: 'Hello',
-    },
-  });
+api.get('/status', (_, res) => {
+  res.json(status());
 });
 
 export default api;

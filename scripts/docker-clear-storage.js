@@ -33,5 +33,5 @@ command.stderr.on('data', (data) => {
 });
 
 command.on('close', (code) => {
-  logger.info(`complete with code:${code}`);
+  logger.info(`complete with code ${code}`);
 });

@@ -4,9 +4,9 @@
  * Author: ChegCheng Wan (chengcheng.st@gmail.com)
  */
 
-import { service } from './express/server';
+import { server, service } from './express/server';
 import api from './api';
 
 service.use('/api', api);
 
-export default service;
+export default server;
