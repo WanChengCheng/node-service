@@ -14,7 +14,6 @@ import errorhandler from 'errorhandler';
 import helmet from 'helmet';
 import uuid from 'uuid/v4';
 import cors from 'cors';
-import { start } from 'repl';
 import corsSettings from './corsSettings';
 import { isProductionEnv } from '../utils/env';
 import logger from '../utils/logger';
