@@ -4,10 +4,10 @@
  * Author: ChegCheng Wan (chengcheng.st@gmail.com)
  */
 
-import connectMongo from '../storage/mongo';
-import connectRedis from '../storage/redis';
+import connectMongo from '../backing-services/mongo';
+import connectRedis from '../backing-services/redis';
+import connectMysql from '../backing-services/mysql';
 import logger from './logger';
-import connectMysql from '../storage/mysql';
 
 const log = logger.child({ context: '[Connect Service]' });
 
