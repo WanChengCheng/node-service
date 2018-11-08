@@ -76,6 +76,21 @@ server.use(
   ),
 );
 
+server.get('/', (_, res) => {
+  res.json({
+    status: 0,
+    live: true,
+  });
+});
+
+// health check
+server.get('/stat', (_, res) => {
+  res.json({
+    status: 0,
+    live: true,
+  });
+});
+
 // logger
 // express-pino-logger has the same options of pino
 server.use(
@@ -90,13 +105,6 @@ server.use(
 server.use((req, res, next) => {
   res.set('X-Request-Id', req.id);
   next();
-});
-
-// health check
-server.get('/stat', (_, res) => {
-  res.json({
-    status: 0,
-  });
 });
 
 server.use(service);
