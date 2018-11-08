@@ -14,9 +14,9 @@ const connectMongo = ({
   const servers = nodes.reduce((res, val) => {
     const construction = typeof val;
     if (construction === 'string') {
-      res.push(construction);
+      res.push(val);
     } else if (construction === 'object') {
-      res.push(`${construction.host}:${construction.port}`);
+      res.push(`${val.host}:${val.port}`);
     } else {
       throw Error(`Unknown node config format:${val}`);
     }
