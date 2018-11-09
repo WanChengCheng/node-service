@@ -25,9 +25,9 @@ const connectServices = () => [
       user: process.env.SERVICE_MONGO_USERNAME,
       pass: process.env.SERVICE_MONGO_PASSWORD,
     });
+    serviceRegister.register(MongoDBService, mongoConnection);
     mongoConnection.on('connected', () => {
       log.info('mongodb connected');
-      serviceRegister.register(MongoDBService, mongoConnection);
       resolve();
     });
     mongoConnection.on('error', (err) => {
@@ -45,9 +45,9 @@ const connectServices = () => [
       port: process.env.SERVICE_REDIS_PORT,
       password: process.env.SERVICE_REDIS_PASSWORD,
     });
+    serviceRegister.register(RedisService, redis);
     redis.on('ready', () => {
       log.info('redis connected');
-      serviceRegister.register(RedisService, redis);
       resolve();
     });
     redis.on('error', (err) => {
@@ -67,11 +67,11 @@ const connectServices = () => [
       username: process.env.SERVICE_MYSQL_USERNAME,
       password: process.env.SERVICE_MYSQL_PASSWORD,
     });
+    serviceRegister.register(MySQLService, sequelize);
     sequelize
       .authenticate()
       .then(() => {
         log.info('mysql connected');
-        serviceRegister.register(MySQLService, sequelize);
         resolve();
       })
       .catch((err) => {
