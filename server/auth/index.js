@@ -4,7 +4,7 @@
  * Author: ChegCheng Wan (chengcheng.st@gmail.com)
  */
 
-import { Route } from 'express';
+import { Router } from 'express';
 // import { body } from 'express-validator/check';
 import { tokenSigner } from './authMiddleware';
 import { serviceName, jwtIssuer, jwtSecret } from '../utils/env';
@@ -12,7 +12,7 @@ import { NotImplementError } from '../errors/codes';
 import errorTrigger from '../utils/errorTrigger';
 import errorResponse from '../utils/errorResponse';
 
-const auth = Route();
+const auth = Router();
 export const serviceIdentities = () => Promise.resolve([
   {
     name: serviceName,
