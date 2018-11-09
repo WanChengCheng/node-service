@@ -6,7 +6,18 @@
 
 import { server, service } from './express/server';
 import api from './api';
+import auth, { serviceIdentities } from './auth';
+import generateAuthMiddleware, { multitenancy } from './auth/authMiddleware';
+
+const { authorized, unauthorized } = generateAuthMiddleware({
+  jwtSecret: multitenancy(serviceIdentities),
+  publicPath: ['/auth', '/api/status'],
+});
+
+service.use(authorized);
+service.use(unauthorized);
 
 service.use('/api', api);
+service.use('/auth', auth);
 
 export default server;
