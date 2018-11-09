@@ -17,7 +17,7 @@ const buildResponse = (info) => {
 const errorResponse = (req, res) => (err) => {
   // log error
   const { log } = req;
-  log.err(err);
+  log.error(err);
   // construct response
   if (typeof err.array === 'function') {
     // handle express-validator errors
