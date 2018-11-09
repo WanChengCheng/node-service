@@ -10,7 +10,7 @@ test('handle triggered error as expected', (t) => {
   errorResponse(
     {
       log: {
-        err: (tolog) => {
+        error: (tolog) => {
           t.truthy(tolog);
         },
       },
