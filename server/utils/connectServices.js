@@ -7,6 +7,7 @@
 import connectMongo from '../backing-services/mongo';
 import connectRedis from '../backing-services/redis';
 import connectMysql from '../backing-services/mysql';
+import serviceRegister, { MongoDBService, RedisService, MySQLService } from '../backing-services';
 import logger from './logger';
 
 const log = logger.child({ context: '[Connect Service]' });
@@ -26,6 +27,7 @@ const connectServices = () => [
     });
     mongoConnection.on('connected', () => {
       log.info('mongodb connected');
+      serviceRegister.register(MongoDBService, mongoConnection);
       resolve();
     });
     mongoConnection.on('error', (err) => {
@@ -45,6 +47,7 @@ const connectServices = () => [
     });
     redis.on('ready', () => {
       log.info('redis connected');
+      serviceRegister.register(RedisService, redis);
       resolve();
     });
     redis.on('error', (err) => {
@@ -68,6 +71,7 @@ const connectServices = () => [
       .authenticate()
       .then(() => {
         log.info('mysql connected');
+        serviceRegister.register(MySQLService, sequelize);
         resolve();
       })
       .catch((err) => {
