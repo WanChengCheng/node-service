@@ -13,3 +13,8 @@ export const RequestValidationError = {
   code: 1001,
   message: 'request validation error',
 };
+
+export const NotImplementError = {
+  code: 1002,
+  message: 'endpoint work in progress',
+};

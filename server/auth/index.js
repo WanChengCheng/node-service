@@ -8,6 +8,9 @@ import { Route } from 'express';
 // import { body } from 'express-validator/check';
 import { tokenSigner } from './authMiddleware';
 import { serviceName, jwtIssuer, jwtSecret } from '../utils/env';
+import { NotImplementError } from '../errors/codes';
+import errorTrigger from '../utils/errorTrigger';
+import errorResponse from '../utils/errorResponse';
 
 const auth = Route();
 export const serviceIdentities = () => Promise.resolve([
@@ -20,6 +23,20 @@ export const serviceIdentities = () => Promise.resolve([
 
 export const signToken = tokenSigner(serviceIdentities)(serviceName);
 
-// username + password
+auth.get('/signup', (req, res) => {
+  try {
+    errorTrigger(NotImplementError);
+  } catch (err) {
+    errorResponse(req, res)(err);
+  }
+});
+
+auth.get('/signin', (req, res) => {
+  try {
+    errorTrigger(NotImplementError);
+  } catch (err) {
+    errorResponse(req, res)(err);
+  }
+});
 
 export default auth;
