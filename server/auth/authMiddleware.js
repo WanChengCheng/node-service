@@ -39,24 +39,24 @@ export const tokenSigner = getServiceIdentities => name => content => getService
     }),
   );
 
-export const multitenancy = (getServiceIdentities, credentialsRequired = true) => async (
-  req,
-  payload,
-  done,
-) => {
-  const services = await getServiceIdentities();
-  const { issuer } = payload || {};
-  if (!issuer) {
-    return done(new UnregisteredIssuerError('no issuer in token'));
-  }
-  const { secret } = services.find(item => item.issuer === issuer) || {};
-  if (secret) {
-    return done(null, secret);
-  }
-  if (credentialsRequired) {
-    return done(new UnregisteredIssuerError(`unknown issuer ${issuer}`), null);
-  }
-  return done(null, null);
+/* eslint max-len: 0 */
+export const multitenancy = (getServiceIdentities, credentialsRequired = true) => function secretCallback(req, payload, done) {
+  // the secretcallback must be a named function (cannot be async arrow function due to a bug of express-jwt)
+  getServiceIdentities().then((services) => {
+    const { issuer } = payload || {};
+    if (!issuer) {
+      return done(new UnregisteredIssuerError('no issuer in token'));
+    }
+    const { secret } = services.find(item => item.issuer === issuer) || {};
+    if (secret) {
+      return done(null, secret);
+    }
+    logger.info('known issuers:', services.map(i => i.issuer).join(','));
+    if (credentialsRequired) {
+      return done(new UnregisteredIssuerError(`unknown issuer ${issuer}`), null);
+    }
+    return done(null, null);
+  });
 };
 
 const generateAuthMiddleware = ({
