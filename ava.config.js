@@ -17,5 +17,5 @@ export default {
   ],
   // in watch mode, do not re-run tests when code change,
   //    trigger the re-run with 'yarn build' or 'yarn build:watch'
-  sources: ['server/**/*.js'],
+  sources: ['!server/**/*.js', 'build/**/*.js'],
 };
