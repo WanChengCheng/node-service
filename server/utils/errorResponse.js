@@ -14,10 +14,10 @@ const buildResponse = (info) => {
   };
 };
 // handle defined/undefined errors and express-validator errors
-const errorResponse = (req, res) => (err) => {
+const errorResponse = (req, res) => (err, message = 'application error') => {
   // log error
   const { log } = req;
-  log.error(err);
+  log.error(message, err);
   // construct response
   if (typeof err.array === 'function') {
     // handle express-validator errors
