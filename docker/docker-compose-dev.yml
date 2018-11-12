@@ -13,15 +13,17 @@ services:
     # command: ${DOCKER_CMD}
     command: "bash ./wait-for-it.sh mysql:3306 -t 0 -s -- ${DOCKER_CMD}"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV-development}
       - PORT=80
     volumes:
       # Keep tracking of these files for development
       - ./wait-for-it.sh:/service/wait-for-it.sh
       - ../.env:/service/.env
-      - ../build:/service/build
+      # File access in mounted volumes extremely slow, CPU bound
+      #     see https://docs.docker.com/docker-for-mac/osxfs-caching/
+      # - ../build:/service/build
       - ../server:/service/server
-      - ../node_modules:/tmp/dependencies/node_modules
+      # - ../node_modules:/tmp/dependencies/node_modules
       - ../package.json:/service/package.json
       - ../ava.config.js:/service/ava.config.js
     depends_on:
