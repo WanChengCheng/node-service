@@ -13,6 +13,7 @@ services:
     # command: ${DOCKER_CMD}
     command: "bash ./wait-for-it.sh mysql:3306 -t 0 -s -- ${DOCKER_CMD}"
     environment:
+      - NO_LISTEN=${NO_LISTEN-no}
       - NODE_ENV=${NODE_ENV-development}
       - PORT=80
     volumes:
