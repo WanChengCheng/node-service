@@ -115,13 +115,17 @@ if (isProductionEnv) {
 }
 const port = process.env.SERVICE_PORT || 80;
 
-let startup = false;
+export const EVENT_SERVICES_CONNECTED = 'ServicesConnected';
+
+export const EVENT_SERVER_READY = 'ServerStarted';
+
 // connect services
 Promise.all(connectServices()).then(() => {
-  if (!startup) {
+  server.emit(EVENT_SERVICES_CONNECTED);
+  if (process.env.NODE_ENV !== 'test') {
     server.listen(port, () => {
-      startup = true;
       logger.info(`Started on port ${port} in ${server.get('env')} mode`);
+      server.emit(EVENT_SERVER_READY);
     });
   }
 });
