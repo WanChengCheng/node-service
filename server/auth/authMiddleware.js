@@ -16,7 +16,7 @@ const log = logger.child({ context: '[Auth]' });
 // name should be the name of the service (full name, not issuer),
 //      name should be configured as SERVICE_NAME for each service component
 //      that are recognizable among each other.
-export const tokenSigner = getServiceIdentities => name => content => getServiceIdentities()
+export const tokenSigner = getServiceIdentities => name => (content = {}, options = {}) => getServiceIdentities()
   .then((services) => {
     const service = services.find(item => item.name === name);
     if (!service) {
@@ -31,9 +31,12 @@ export const tokenSigner = getServiceIdentities => name => content => getService
       jwt.sign(
         {
           ...content,
-          issuer,
         },
         secret,
+        {
+          issuer,
+          ...options,
+        },
         (err, res) => (err ? reject(err) : resolve(res)),
       );
     }),
@@ -43,7 +46,7 @@ export const tokenSigner = getServiceIdentities => name => content => getService
 export const multitenancy = (getServiceIdentities, credentialsRequired = true) => function secretCallback(req, payload, done) {
   // the secretcallback must be a named function (cannot be async arrow function due to a bug of express-jwt)
   getServiceIdentities().then((services) => {
-    const { issuer } = payload || {};
+    const { iss: issuer } = payload || {};
     if (!issuer) {
       return done(new UnregisteredIssuerError('no issuer in token'));
     }
