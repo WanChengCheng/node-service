@@ -9,8 +9,8 @@ import { Router } from 'express';
 import { tokenSigner } from './authMiddleware';
 import { serviceName, jwtIssuer, jwtSecret } from '../utils/env';
 import { NotImplementError } from '../errors/codes';
-import errorTrigger from '../utils/errorTrigger';
-import errorResponse from '../utils/errorResponse';
+import errorTrigger from '../express/errorTrigger';
+import errorResponse from '../express/errorResponse';
 
 const auth = Router();
 export const serviceIdentities = () => Promise.resolve([

@@ -25,7 +25,7 @@ const command = spawn(`${rmAllContainers};${rmMongoImportImage}`, {
 });
 
 command.stdout.on('data', (data) => {
-  logger.info(`remove storage: ${data}`);
+  logger.info(`${data}`);
 });
 
 command.stderr.on('data', (data) => {
@@ -35,3 +35,5 @@ command.stderr.on('data', (data) => {
 command.on('close', (code) => {
   logger.info(`complete with code ${code}`);
 });
+
+logger.info('remove storage:');

@@ -17,7 +17,7 @@ import cors from 'cors';
 import corsSettings from './corsSettings';
 import { isProductionEnv } from '../utils/env';
 import logger from '../utils/logger';
-import connectServices from '../utils/connectServices';
+import connectServices from './connectServices';
 
 export const server = express();
 export const service = Router();
@@ -129,14 +129,7 @@ Promise.all(connectServices()).then(() => {
       server.emit(EVENT_SERVER_READY);
     });
   } else {
-    logger.info(`Server started but not listening,
-    connecto to container:
-    \tdocker exec -it ${process.env.SERVICE_NAME} bash
-    watch tests:
-    \tyarn test:watch
-    watch source code:
-    \tyarn build:watch
-    `);
+    logger.info('Server started but not listening');
   }
 });
 

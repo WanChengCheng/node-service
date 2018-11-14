@@ -18,7 +18,7 @@ const command = spawn(`docker rm -f ${project}; docker rmi ${project}`, {
 });
 
 command.stdout.on('data', (data) => {
-  logger.info(`rebuild app: ${data}`);
+  logger.info(`${data}`);
 });
 
 command.stderr.on('data', (data) => {
@@ -28,3 +28,5 @@ command.stderr.on('data', (data) => {
 command.on('close', (code) => {
   logger.info(`complete with code ${code}`);
 });
+
+logger.info('rebuild application:');

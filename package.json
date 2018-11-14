@@ -17,7 +17,7 @@
     "test:ut": "./node_modules/.bin/ava --verbose build/**/*.test.js",
     "build": "if [ -d build ]; then rm -r build/*; fi; npm run build:server",
     "build:noremove": "npm run build:server",
-    "build:server": "./node_modules/.bin/babel server --out-dir build --source-maps",
+    "build:server": "./node_modules/.bin/babel server --out-dir build --copy-files --source-maps",
     "build:watch": "nodemon --watch server -x \"npm run build:noremove\"",
     "start": "npm run build && node server.js",
     "start:nobuild": "node server.js"
