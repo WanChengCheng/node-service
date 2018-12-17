@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * File: docker-clear-storage.js
  * File Created: Tuesday, 6th November 2018 11:29:20 pm
@@ -5,11 +6,12 @@
  */
 
 require('dotenv').config();
-const { spawn } = require('child_process');
-
 const logger = require('pino')({
   prettyPrint: { colorize: true },
 });
+
+const run = require('./util/shell');
+
 
 const project = process.env.SERVICE_NAME;
 
@@ -20,20 +22,8 @@ const rmMongoImportImage = `docker rmi ${project}-mongoimport`;
 
 // ! remove all the containers
 // ! remove mongoImport image, rebuild it from yarn dev
-const command = spawn(`${rmAllContainers};${rmMongoImportImage}`, {
-  shell: true,
-});
-
-command.stdout.on('data', (data) => {
-  logger.info(`${data}`);
-});
-
-command.stderr.on('data', (data) => {
-  logger.error(`${data}`);
-});
-
-command.on('close', (code) => {
-  logger.info(`complete with code ${code}`);
-});
-
-logger.info('remove storage:');
+run(`${rmAllContainers};${rmMongoImportImage}`)
+  .then(() => {
+    logger.info('remove storage:');
+  })
+  .catch(() => {});
