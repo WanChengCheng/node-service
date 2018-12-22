@@ -48,18 +48,18 @@
     "jsonwebtoken": "^8.4.0",
     "mime-types": "^2.1.21",
     "moment": "^2.23.0",
-    "mongoose": "^5.3.16",
+    "mongoose": "^5.4.0",
     "mysql2": "^1.6.3",
-    "pino": "^5.10.1",
+    "pino": "^5.10.4",
     "response-time": "^2.3.2",
     "sequelize": "^4.42.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "ava": "^1.0.0-rc.1",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "ava": "^1.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -67,7 +67,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "husky": "^1.2.1",
-    "nodemon": "^1.18.8",
+    "nodemon": "^1.18.9",
     "pino-pretty": "^2.5.0",
     "supertest": "^3.3.0"
   }
