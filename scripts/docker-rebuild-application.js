@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * File: docker-rebuild-application.js
  * File Created: Tuesday, 6th November 2018 10:35:34 pm
@@ -5,7 +6,6 @@
  */
 
 require('dotenv').config();
-const { spawn } = require('child_process');
 
 const logger = require('pino')({
   prettyPrint: { colorize: true },
@@ -13,20 +13,8 @@ const logger = require('pino')({
 
 const project = process.env.SERVICE_NAME;
 
-const command = spawn(`docker rm -f ${project}; docker rmi ${project}`, {
-  shell: true,
-});
-
-command.stdout.on('data', (data) => {
-  logger.info(`${data}`);
-});
-
-command.stderr.on('data', (data) => {
-  logger.error(`${data}`);
-});
-
-command.on('close', (code) => {
-  logger.info(`complete with code ${code}`);
-});
-
-logger.info('rebuild application:');
+require('./util/shell')(`docker rm -f ${project}; docker rmi ${project}`)
+  .catch(() => {})
+  .then(() => {
+    logger.info('rebuild application:');
+  });

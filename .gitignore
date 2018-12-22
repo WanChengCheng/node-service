@@ -7,3 +7,6 @@ build/
 
 # Local env
 .env
+
+# error logs
+yarn-error.log

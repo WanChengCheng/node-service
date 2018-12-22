@@ -4,6 +4,7 @@
  * Author: ChegCheng Wan (chengcheng.st@gmail.com)
  */
 
+/* eslint max-len: 0 */
 import jwt from 'jsonwebtoken';
 import jwtMiddleware from 'express-jwt';
 import logger from '../utils/logger';
@@ -42,11 +43,17 @@ export const tokenSigner = getServiceIdentities => name => (content = {}, option
     }),
   );
 
-/* eslint max-len: 0 */
-export const multitenancy = (getServiceIdentities, credentialsRequired = true) => function secretCallback(req, payload, done) {
+/**
+ * HOF to generate function to be used by express-jwt to support multi-tenancy.
+ * Check expres-jwt's documents for more details.
+ *
+ * @param {function} getServiceIdentities - async function, should return 'service identities'.
+ * @param {boolean} disableCredential     - will disable JWT token protection if given.
+ */
+export const multitenancy = (getServiceIdentities, disableCredential = false) => function secretCallback(req, payload = {}, done) {
   // the secretcallback must be a named function (cannot be async arrow function due to a bug of express-jwt)
   getServiceIdentities().then((services) => {
-    const { iss: issuer } = payload || {};
+    const issuer = payload.iss || payload.issuer;
     if (!issuer) {
       return done(new UnregisteredIssuerError('no issuer in token'));
     }
@@ -55,13 +62,20 @@ export const multitenancy = (getServiceIdentities, credentialsRequired = true) =
       return done(null, secret);
     }
     logger.info('known issuers:', services.map(i => i.issuer).join(','));
-    if (credentialsRequired) {
+    if (!disableCredential) {
       return done(new UnregisteredIssuerError(`unknown issuer ${issuer}`), null);
     }
     return done(null, null);
   });
 };
 
+/**
+ * Generate 'authorized' express middleware to handle(parse) JWT in request headers.
+ * Generate 'unauthorized' express middleware to handle unauthorized request, i.e, 401 with given message.
+ *
+ * @param {object} config
+ * @param {String} config.jwtSecret - secret to sign & varify tokens
+ */
 const generateAuthMiddleware = ({
   jwtSecret,
   credentialsRequired = true,
@@ -70,7 +84,7 @@ const generateAuthMiddleware = ({
   publicPath = [],
   unauthorizedMessage = 'INVALID TOKEN',
   isRevoked,
-}) => {
+} = {}) => {
   const fromHeaderOrQuery = (req) => {
     const {
       headers: { authorization },
