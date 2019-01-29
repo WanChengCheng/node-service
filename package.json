@@ -1,6 +1,6 @@
 {
   "name": "@chengchengw/node-service",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.3-alpha.0",
   "main": "server.js",
   "scripts": {
     "dev": "DOCKER_CMD=\"dumb-init npm run start\" docker-compose -f docker/docker-compose-dev.yml up",
@@ -21,6 +21,10 @@
     "build:watch": "nodemon --watch server -x \"npm run build:noremove\"",
     "start": "npm run build && node server.js",
     "start:nobuild": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WanChengCheng/node-service"
   },
   "husky": {
     "hooks": {
@@ -71,5 +75,6 @@
     "nodemon": "^1.18.9",
     "pino-pretty": "^2.5.0",
     "supertest": "^3.3.0"
-  }
+  },
+  "gitHead": "e72be748d87f4c6f914705c047905cbe06e680db"
 }
