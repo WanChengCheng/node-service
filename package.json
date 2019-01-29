@@ -1,6 +1,6 @@
 {
   "name": "node-service",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "server.js",
   "scripts": {
     "dev": "DOCKER_CMD=\"dumb-init npm run start\" docker-compose -f docker/docker-compose-dev.yml up",
